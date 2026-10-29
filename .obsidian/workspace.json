@@ -1,0 +1,215 @@
+{
+  "main": {
+    "id": "533a3a8b6aa8685b",
+    "type": "split",
+    "children": [
+      {
+        "id": "bb922635f5c66c9b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8b3a1d87f37be619",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Obsidian-work/สมาชิก/03 - Model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "03 - Model"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5d994bcda3c03805",
+    "type": "split",
+    "children": [
+      {
+        "id": "b1c64dfd6bcd728a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "840964c31168c51c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "f7675754781954fe",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "538a1a58335fdfa8",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "08bf627802e5a48c",
+    "type": "split",
+    "children": [
+      {
+        "id": "be610543af874fc8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ad6e79c1eaa1b0ee",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Obsidian-work/สมาชิก/03 - Model.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "1d553a2adaeaf5e0",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Obsidian-work/สมาชิก/03 - Model.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "42b6ee05eccaa1b6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "5bd2150a8d6a4f8f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "08cb2e496716ef3f",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Obsidian-work/สมาชิก/03 - Model.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "8b3a1d87f37be619",
+  "lastOpenFiles": [
+    "Obsidian-work/02 - ลำดับงานตั้งแต่เริ่มจนส่ง.md",
+    "Obsidian-work/สมาชิก/04 - Image Processing และ Evaluation.md",
+    "Obsidian-work/สมาชิก/05 - Video Pipeline, QA เอกสาร และ Demo.md",
+    "README.md",
+    "Obsidian-work/สมาชิก/03 - Model.md",
+    "Obsidian-work/สมาชิก/02 - Dataset.md",
+    "Obsidian-work/สมาชิก/01 - แอปและรวมระบบ.md",
+    "demo",
+    "Obsidian-work/สมาชิก/05 - QA เอกสาร และ Demo.md",
+    "images/demo",
+    "results",
+    "images/results",
+    "images",
+    "best.pt",
+    "src/best.pt",
+    "requirements.txt",
+    "src",
+    "Obsidian-work/03 - สัญญาเชื่อมระบบ.md",
+    "Obsidian-work/สมาชิก",
+    "Smart_Helmet_Detection_แผนงาน_5วัน.md",
+    "Obsidian-work/Smart_Helmet_Detection_แผนงาน_5วัน.md"
+  ]
+}
