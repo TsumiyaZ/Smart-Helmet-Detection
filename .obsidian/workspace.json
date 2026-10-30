@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Obsidian-work/สมาชิก/04 - ปรับภาพและวัดผล.md",
+                "file": "Obsidian-work/สมาชิก/05 - ทำวิดีโอและเตรียมส่ง.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "04 - ปรับภาพและวัดผล"
+              "title": "05 - ทำวิดีโอและเตรียมส่ง"
             }
           }
         ]
@@ -190,12 +190,20 @@
   },
   "active": "8b3a1d87f37be619",
   "lastOpenFiles": [
+    "results/test_video_result_readable.mp4",
+    "results/testModel7_result.jpg",
+    "images/testModel7.jpg",
+    "images/3180739a-a1da-4966-ad61-4b1d985d3dbe.jpg",
+    "results/test_video_result.mp4",
+    "src/__pycache__/video_processing.cpython-312.pyc",
+    "demo/test_video.mp4",
+    "Obsidian-work/03 - สัญญาเชื่อมระบบ.md",
+    "Obsidian-work/สมาชิก/04 - ปรับภาพและวัดผล.md",
+    "src/video_processing.py",
     "results/testModel2_result.jpg",
     "images/testModel2.jpg",
     "images/Unconfirmed 726777.crdownload",
-    "results/testModel7_result.jpg",
     "results/testModel6_result.jpg",
-    "images/testModel7.jpg",
     "images/Unconfirmed 391984.crdownload",
     "images/testModel6.jpg",
     "images/Unconfirmed 935495.crdownload",
@@ -203,19 +211,11 @@
     "results/testModel4_result.jpg",
     "images/testModel5.jpg",
     "images/Unconfirmed 86345.crdownload",
-    "images/testModel4.jpg",
     "images/Unconfirmed 733968.crdownload",
-    "results/testModel3_result.jpg",
     "images/testModel3",
-    "images/Unconfirmed 612202.crdownload",
-    "images/Unconfirmed 376350.crdownload",
-    "images/Unconfirmed 666581.crdownload",
-    "src/__pycache__/detection.cpython-312.pyc",
     "Obsidian-work/สมาชิก/05 - ทำวิดีโอและเตรียมส่ง.md",
-    "Obsidian-work/สมาชิก/04 - ปรับภาพและวัดผล.md",
     "Obsidian-work/สมาชิก/03 - ฝึกโมเดล.md",
     "Obsidian-work/สมาชิก/02 - หาและเตรียมชุดภาพ.md",
-    "Obsidian-work/03 - สัญญาเชื่อมระบบ.md",
     "Obsidian-work/02 - ลำดับงานตั้งแต่เริ่มจนส่ง.md",
     "Obsidian-work/00 - คำศัพท์ง่าย ๆ.md",
     "Obsidian-work/สมาชิก/01 - ทำหน้าเว็บ.md",
