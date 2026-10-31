@@ -1,0 +1,2 @@
+timestamp,experiment,model,model_sha256,data_yaml,split,image_count,image_list_sha256,method,params,conf,imgsz,precision,recall,map50,map50_95,notes
+20261031,final_test,best.pt,91f829174b578ab5101019cf9e603dbcecd92ec80fadd73adc3c9c96480b5c4e,E:\Project\Smart_Helmet\dataset\data_fixed.yaml,test,360,see test labels,none,{},0.25,640,0.8924,0.8334,0.8385,0.4929,ผลสุดท้ายบน test split 360 ภาพ ภาพเดิม รันครั้งเดียว

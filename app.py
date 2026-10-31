@@ -6,6 +6,7 @@ from pathlib import Path
 import tempfile
 
 import streamlit as st
+import numpy as np
 from PIL import Image, UnidentifiedImageError
 
 from src.detection import predict_image
@@ -84,13 +85,33 @@ def _apply_styles():
     )
 
 
-def _optional_preprocessor():
-    """Load the image team's optional preprocessing function when available."""
+def _optional_preprocessing():
+    """Load the image team's optional preprocessing module when available.
+
+    Returns (preprocess_image, available_methods); both are None/empty when
+    ``src/preprocessing.py`` is not importable.
+    """
     try:
         module = import_module("src.preprocessing")
-        return getattr(module, "preprocess_image", None)
     except (ImportError, AttributeError):
-        return None
+        return None, ()
+    preprocess = getattr(module, "preprocess_image", None)
+    methods = tuple(
+        method
+        for method in getattr(module, "available_methods", list)()
+        if method != "none"
+    )
+    if preprocess is None or not methods:
+        return None, ()
+    return preprocess, methods
+
+
+def _preprocess_or_error(preprocess_image, method, image_rgb):
+    array = np.asarray(image_rgb)
+    processed = preprocess_image(array, method=method)
+    if hasattr(processed, "__array__"):
+        return processed
+    raise TypeError("preprocess_image ต้องคืนภาพ RGB ที่แปลงเป็นอาร์เรย์ได้")
 
 
 def _render_image_result(image_rgb, prediction):
@@ -122,7 +143,7 @@ def _render_image_result(image_rgb, prediction):
     )
 
 
-def _image_page(preprocess_image):
+def _image_page(preprocess_methods, preprocess_image=None):
     st.markdown('<div class="section-title">ตรวจภาพ</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-hint">อัปโหลดภาพเพื่อดูตำแหน่งและประเภทของหมวกนิรภัยที่ตรวจพบ</div>', unsafe_allow_html=True)
     upload_col, settings_col = st.columns([2, 1], gap="large")
@@ -155,8 +176,16 @@ def _image_page(preprocess_image):
         unsafe_allow_html=True,
     )
     use_preprocessing = False
+    preprocess_method = None
     if preprocess_image is not None:
         use_preprocessing = st.checkbox("ปรับภาพก่อนตรวจ", value=False)
+        if use_preprocessing:
+            preprocess_method = st.selectbox(
+                "วิธีปรับภาพ",
+                preprocess_methods,
+                index=0,
+                help="เลือกวิธีปรับภาพก่อนส่งให้โมเดล (ตัวเลขจากชุด validation ชี้ว่าภาพเดิมยังแม่นที่สุด)",
+            )
 
     if uploaded is not None:
         try:
@@ -169,16 +198,16 @@ def _image_page(preprocess_image):
         if st.button("ตรวจภาพ", type="primary", key="run_image"):
             try:
                 input_rgb = image_rgb
-                if use_preprocessing:
-                    input_rgb = preprocess_image(image_rgb, method="default")
-                    if hasattr(input_rgb, "__array__"):
-                        pass
-                    else:
-                        raise TypeError("preprocess_image ต้องคืนภาพ RGB ที่แปลงเป็นอาร์เรย์ได้")
+                used_method = None
+                if use_preprocessing and preprocess_image is not None:
+                    input_rgb = _preprocess_or_error(
+                        preprocess_image, preprocess_method, image_rgb
+                    )
+                    used_method = preprocess_method
                 with st.spinner("กำลังตรวจภาพด้วยโมเดล..."):
                     prediction = predict_image(input_rgb, confidence=confidence)
-                if use_preprocessing:
-                    st.caption("ผลตรวจนี้ใช้ภาพที่ปรับด้วย src.preprocessing.preprocess_image")
+                if used_method:
+                    st.caption(f"ผลตรวจนี้ใช้ภาพที่ปรับด้วยวิธี {used_method} (src/preprocessing.py)")
                 _render_image_result(input_rgb, prediction)
             except FileNotFoundError as error:
                 st.error(f"ไม่พบไฟล์โมเดล: {error}")
@@ -281,9 +310,9 @@ def main():
     )
 
     image_tab, video_tab = st.tabs(["ตรวจภาพ", "ตรวจวิดีโอ"])
-    preprocess_image = _optional_preprocessor()
+    preprocess_image, preprocess_methods = _optional_preprocessing()
     with image_tab:
-        _image_page(preprocess_image)
+        _image_page(preprocess_methods, preprocess_image=preprocess_image)
     with video_tab:
         _video_page()
     st.divider()
