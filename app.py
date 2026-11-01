@@ -30,7 +30,7 @@ def _apply_styles():
         [data-testid="stCaptionContainer"] { color: #6b7280 !important; }
         [data-testid="stHeader"] { background: transparent; }
         [data-testid="stAppViewContainer"] > .main { background: var(--canvas); }
-        .block-container { max-width: 900px; padding-top: 2.2rem; padding-bottom: 3rem; }
+        .block-container { max-width: 1180px; padding-top: 2.2rem; padding-bottom: 3rem; }
         .hero { padding: 2rem 2.2rem; border: 1px solid #e5e7eb; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(15, 23, 42, .045); margin-bottom: 1.45rem; }
         .eyebrow { color: var(--teal); font-size: .76rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: .6rem; }
         .hero h1 { color: var(--ink); font-size: clamp(1.8rem, 4vw, 2.45rem); line-height: 1.3; margin: 0 0 .55rem 0; font-weight: 700; }
@@ -129,9 +129,10 @@ def _image_page(preprocess_image):
     with upload_col:
         with st.container(border=True):
             st.markdown('<div class="upload-label">เลือกรูปภาพ</div>', unsafe_allow_html=True)
-            uploaded = st.file_uploader(
+            uploaded_files = st.file_uploader(
                 "เลือกรูปภาพ",
                 type=["jpg", "jpeg", "png", "webp"],
+                accept_multiple_files=True,
                 label_visibility="collapsed",
                 key="image_upload",
             )
@@ -158,32 +159,38 @@ def _image_page(preprocess_image):
     if preprocess_image is not None:
         use_preprocessing = st.checkbox("ปรับภาพก่อนตรวจ", value=False)
 
-    if uploaded is not None:
-        try:
-            image_rgb = Image.open(uploaded).convert("RGB")
-            st.image(image_rgb, caption="ภาพต้นฉบับ", use_container_width=True)
-        except (UnidentifiedImageError, OSError, ValueError) as error:
-            st.error(f"เปิดรูปภาพนี้ไม่ได้: {error}")
-            return
-
-        if st.button("ตรวจภาพ", type="primary", key="run_image"):
+    if uploaded_files:
+        st.caption(f"เลือกรูปแล้ว {len(uploaded_files)} รูป · แสดงตัวอย่างด้านล่าง")
+        images = []
+        preview_columns = st.columns(min(4, len(uploaded_files)))
+        for index, uploaded in enumerate(uploaded_files):
             try:
-                input_rgb = image_rgb
-                if use_preprocessing:
-                    input_rgb = preprocess_image(image_rgb, method="default")
-                    if hasattr(input_rgb, "__array__"):
-                        pass
-                    else:
-                        raise TypeError("preprocess_image ต้องคืนภาพ RGB ที่แปลงเป็นอาร์เรย์ได้")
-                with st.spinner("กำลังตรวจภาพด้วยโมเดล..."):
-                    prediction = predict_image(input_rgb, confidence=confidence)
-                if use_preprocessing:
-                    st.caption("ผลตรวจนี้ใช้ภาพที่ปรับด้วย src.preprocessing.preprocess_image")
-                _render_image_result(input_rgb, prediction)
-            except FileNotFoundError as error:
-                st.error(f"ไม่พบไฟล์โมเดล: {error}")
-            except Exception as error:
-                st.error(f"ตรวจภาพไม่สำเร็จ: {error}")
+                image_rgb = Image.open(uploaded).convert("RGB")
+                images.append((uploaded.name, image_rgb))
+                preview_columns[index % len(preview_columns)].image(
+                    image_rgb, caption=uploaded.name, use_container_width=True
+                )
+            except (UnidentifiedImageError, OSError, ValueError) as error:
+                st.error(f"เปิด {uploaded.name} ไม่ได้: {error}")
+
+        if images and st.button("ตรวจภาพทั้งหมด", type="primary", key="run_image"):
+            for index, (name, image_rgb) in enumerate(images, start=1):
+                st.divider()
+                st.markdown(f"### {index}. {name}")
+                try:
+                    input_rgb = image_rgb
+                    if use_preprocessing:
+                        input_rgb = preprocess_image(image_rgb, method="default")
+                        if not hasattr(input_rgb, "__array__"):
+                            raise TypeError("preprocess_image ต้องคืนภาพ RGB ที่แปลงเป็นอาร์เรย์ได้")
+                    with st.spinner(f"กำลังตรวจ {name}..."):
+                        prediction = predict_image(input_rgb, confidence=confidence)
+                    _render_image_result(input_rgb, prediction)
+                except FileNotFoundError as error:
+                    st.error(f"ไม่พบไฟล์โมเดล: {error}")
+                    break
+                except Exception as error:
+                    st.error(f"ตรวจ {name} ไม่สำเร็จ: {error}")
 
 
 def _video_page():
