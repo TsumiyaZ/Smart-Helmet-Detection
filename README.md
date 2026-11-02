@@ -111,7 +111,7 @@ preprocess_image(image_rgb, method="clahe", clip_limit=2.0, tile_grid_size=(8, 8
 
 | Precision | Recall | mAP50 | mAP50-95 |
 |---:|---:|---:|---:|
-| 0.8924 | 0.8334 | 0.8385 | 0.4929 |
+| 0.8925 | 0.8330 | 0.8385 | 0.4929 |
 
 ### 5.2 ปรับภาพทดสอบบนชุด validation (728 ภาพ, 3,070 objects) — ผลเลือกแบบ
 

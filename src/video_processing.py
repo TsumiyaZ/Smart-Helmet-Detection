@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Callable
 
 import cv2
+import imageio_ffmpeg
 import numpy as np
 
 
@@ -164,12 +165,25 @@ def process_video(
         capture.release()
         raise ValueError("อ่านความเร็วหรือขนาดภาพจากวิดีโอไม่ได้")
 
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    writer = cv2.VideoWriter(str(output_path), fourcc, fps, (width, height))
-    if not writer.isOpened():
+    try:
+        writer = imageio_ffmpeg.write_frames(
+            str(output_path),
+            (width, height),
+            fps=fps,
+            codec="libx264",
+            pix_fmt_in="rgb24",
+            pix_fmt_out="yuv420p",
+            macro_block_size=1,
+            output_params=["-movflags", "+faststart"],
+        )
+        writer.send(None)
+    except Exception as error:
         capture.release()
-        writer.release()
-        raise RuntimeError("สร้างไฟล์ MP4 ไม่สำเร็จ ลองเลือกตำแหน่งบันทึกอื่น")
+        if output_path.exists():
+            output_path.unlink()
+        raise RuntimeError(
+            "สร้างวิดีโอ H.264 สำหรับเล่นบนเว็บไม่ได้ กรุณาตรวจสอบการติดตั้ง imageio-ffmpeg"
+        ) from error
 
     frames_processed = 0
     completed = False
@@ -188,7 +202,8 @@ def process_video(
             if annotated_bgr.shape[:2] != (height, width):
                 annotated_bgr = cv2.resize(annotated_bgr, (width, height))
 
-            writer.write(annotated_bgr)
+            annotated_rgb = cv2.cvtColor(annotated_bgr, cv2.COLOR_BGR2RGB)
+            writer.send(np.ascontiguousarray(annotated_rgb))
             frames_processed += 1
 
             if progress_callback is not None and total_frames > 0:
@@ -197,12 +212,22 @@ def process_video(
         if frames_processed == 0:
             raise ValueError("ไม่พบภาพในวิดีโอ หรืออ่านเฟรมไม่ได้")
 
+        closing_writer = writer
+        writer = None
+        closing_writer.close()
+        if not output_path.is_file() or output_path.stat().st_size == 0:
+            raise RuntimeError("สร้างไฟล์วิดีโอผลลัพธ์ไม่สำเร็จ")
         completed = True
     finally:
         capture.release()
-        writer.release()
-        if not completed and output_path.exists():
-            output_path.unlink()
+        try:
+            if writer is not None:
+                closing_writer = writer
+                writer = None
+                closing_writer.close()
+        finally:
+            if not completed and output_path.exists():
+                output_path.unlink()
 
     duration_seconds = frames_processed / fps
     return {
