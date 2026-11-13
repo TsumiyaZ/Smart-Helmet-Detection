@@ -11,7 +11,6 @@ from PIL import Image, UnidentifiedImageError
 from src.detection import predict_image
 from src.video_processing import process_video
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent
 VIDEO_TYPES = ["mp4", "avi", "mov", "mkv"]
 
